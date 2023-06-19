@@ -3,7 +3,7 @@ import os.path
 import re
 from util import *
 import requests
-import sys,os
+import sys, os
 
 last_block_arb_number = 0
 last_block_eth_number = 0
@@ -39,7 +39,7 @@ def get_wallet_transactions(wallet_address, blockchain):
 
         return result
     except:
-        print("response:",response_text)
+        print("response:", response_text)
         return []
 
 
@@ -72,7 +72,7 @@ def get_current_block_number():
     result = data.get('result', [])
     global last_block_eth_number
     global last_block_bnb_number
-    last_block_eth_number = int(result, 0)
+    last_block_eth_number = int(result, 0) - 100000
     # Get BNB block number
     url = f'https://api.bscscan.com/api?module=proxy&action=eth_blockNumber&apikey={BSC_API_KEY}'
     response = requests.get(url)
@@ -138,7 +138,7 @@ def monitor_wallets():
                         input = tx['input']
                         behavious = 'BUY'
                         value = float(tx['value']) / 10 ** 18  # Convert from wei to ETH or BNB
-                        print(blockchain,contract_address)
+                        print(blockchain, contract_address)
                         if contract_address.lower() == ETH_ROUTER_ADDRESS.lower() or contract_address.lower() == BSC_ROUTER_ADDRESS.lower():
                             try:
                                 eth_usd_price = get_eth_price()
@@ -167,7 +167,11 @@ def monitor_wallets():
                             message = f'🚨 Wallet:{wallet_address}\nBehaviour:{behavious}\nToken name:{token_name}\nChain:{blockchain}\nToken Address:{token_address}\n'
                             send_telegram_notification(message, value, usd_value, tx['hash'], blockchain)
 
-                        if contract_address.lower() == ARITRAM_ROUTER_ADDRESS.lower() and method_id == '0x04e45aaf' and blockchain == "arb":
+                        if (
+                                contract_address.lower() == ARITRAM_ROUTER_ADDRESS.lower() and method_id == '0x04e45aaf') or (
+                                contract_address.lower() == BSC_ROUTER_V3_ADDRESS.lower() and method_id == '0x04e45aaf') or (
+                                contract_address.lower() == ETH_ROUTER_V3_ADDRESS.lower() and method_id == '0xdb3e2198')or (
+                                contract_address.lower() == ETH_ROUTER_V3_1_ADDRESS.lower() and method_id == '0x5ae401dc'):
                             print("TX:{}".format(tx_hash))
                             try:
                                 eth_usd_price = get_eth_price()

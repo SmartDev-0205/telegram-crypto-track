@@ -2,7 +2,7 @@ from web3 import Web3
 import json
 
 # Update the following variables with your own Etherscan and BscScan API keys and Telegram bot token
-TELEGRAM_BOT_TOKEN = '5800403587:AAHHpzfKWVyheYYIWcMHpUJsMlqIhQ7xoTM'
+TELEGRAM_BOT_TOKEN = '6231834333:AAGjSS19_cTpaJacT5tn8P267_u5Ot0Ut2k'
 TELEGRAM_CHAT_ID = '-984543212'
 BLOCKCHAIN_NAME = "ARBITRAM"
 
@@ -21,6 +21,8 @@ arb_eth_weth = Web3.to_checksum_address(ARITRAM_WETH_ADDRESS)
 # ETHEREUM
 ETH_API_KEY = 'IPMS9STM3WNJ4K55KR6FS1F1KB77VPI96K'
 ETH_ROUTER_ADDRESS = '0x7a250d5630b4cf539739df2c5dacb4c659f2488d'
+ETH_ROUTER_V3_ADDRESS = '0xe592427a0aece92de3edee1f18e0157c05861564'
+ETH_ROUTER_V3_1_ADDRESS = '0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45'
 ETH_USDT_ADDRESS = '0xdac17f958d2ee523a2206206994597c13d831ec7'
 ETH_WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
 ETH_RPC = 'https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'
@@ -32,6 +34,7 @@ eth_weth = Web3.to_checksum_address(ETH_WETH_ADDRESS)
 # BINANCE
 BSC_API_KEY = 'GFR6VJ85M249JWNQ1K9EA3M624SHQSB58X'
 BSC_ROUTER_ADDRESS = '0x10ED43C718714eb63d5aA57B78B54704E256024E'
+BSC_ROUTER_V3_ADDRESS = '0x13f4EA83D0bd40E75C8222255bc855a974568Dd4'
 BSC_USDT_ADDRESS = '0x55d398326f99059ff775485246999027b3197955'
 BSC_WETH_ADDRESS = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'
 BSC_RPC = 'https://bsc-dataseed1.binance.org:443'
@@ -52,6 +55,7 @@ with open('abi/router.json', 'r') as f:
     router_abi = json.load(f)
 
 def get_tokensymbol(token_address,blockchain):
+    print(token_address,blockchain)
     # Create a contract instance for the token
     token_address = Web3.to_checksum_address(token_address)
     if blockchain == 'eth':
